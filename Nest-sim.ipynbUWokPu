@@ -1,0 +1,118 @@
+{
+ "metadata": {
+  "name": "",
+  "signature": "sha256:411212b5adcb3860599ce9bf9ec66bd0c13579a27d297d4559a4d31d330d4c83"
+ },
+ "nbformat": 3,
+ "nbformat_minor": 0,
+ "worksheets": [
+  {
+   "cells": [
+    {
+     "cell_type": "code",
+     "collapsed": false,
+     "input": [
+      "from __future__ import division\n",
+      "import numpy as np\n",
+      "import matplotlib.pyplot as plt\n",
+      "import nest\n",
+      "\n",
+      "nest.ResetKernel()"
+     ],
+     "language": "python",
+     "metadata": {},
+     "outputs": [],
+     "prompt_number": 5
+    },
+    {
+     "cell_type": "code",
+     "collapsed": false,
+     "input": [
+      "input_params = [{\"I_e\": 200.0 + 10*np.random.rand(), \"tau_m\": 20.0 + np.random.rand()} for x in range(100)]\n",
+      "\n",
+      "e1 = nest.Create(\"iaf_psc_alpha\", 100, params)\n",
+      "e2 = nest.Create(\"iaf_psc_alpha\", 100, params)\n",
+      "e3 = nest.Create(\"iaf_psc_alpha\", 100)\n",
+      "\n",
+      "i1 = nest.Create(\"iaf_psc_alpha\", 20)\n",
+      "i2 = nest.Create(\"iaf_psc_alpha\", 20)\n",
+      "i3 = nest.Create(\"iaf_psc_alpha\", 20)"
+     ],
+     "language": "python",
+     "metadata": {},
+     "outputs": [],
+     "prompt_number": 2
+    },
+    {
+     "cell_type": "code",
+     "collapsed": false,
+     "input": [
+      "nest.Connect(e1, e1, \"all_to_all\", syn_spec={\"weight\":20.0, \"delay\":0.1})\n",
+      "nest.Connect(i1, i1, \"all_to_all\", syn_spec={\"weight\":20.0, \"delay\":0.1})\n",
+      "nest.Connect(e1, i1, \"all_to_all\", syn_spec={\"weight\":20.0, \"delay\":0.1})\n",
+      "nest.Connect(i1, e1, \"all_to_all\", syn_spec={\"weight\":20.0, \"delay\":0.1})\n",
+      "\n",
+      "nest.Connect(e2, e2, \"all_to_all\", syn_spec={\"weight\":20.0, \"delay\":0.1})\n",
+      "nest.Connect(i2, i2, \"all_to_all\", syn_spec={\"weight\":20.0, \"delay\":0.1})\n",
+      "nest.Connect(e2, i2, \"all_to_all\", syn_spec={\"weight\":20.0, \"delay\":0.1})\n",
+      "nest.Connect(i2, e2, \"all_to_all\", syn_spec={\"weight\":20.0, \"delay\":0.1})\n",
+      "\n",
+      "nest.Connect(e3, e3, \"all_to_all\", syn_spec={\"weight\":20.0, \"delay\":0.1})\n",
+      "nest.Connect(i3, i3, \"all_to_all\", syn_spec={\"weight\":20.0, \"delay\":0.1})\n",
+      "nest.Connect(e3, i3, \"all_to_all\", syn_spec={\"weight\":20.0, \"delay\":0.1})\n",
+      "nest.Connect(i3, e3, \"all_to_all\", syn_spec={\"weight\":20.0, \"delay\":0.1})\n",
+      "\n",
+      "nest.Connect(e1, e3, \"all_to_all\", syn_spec={\"weight\":20.0, \"delay\":1.0})\n",
+      "nest.Connect(e1, i3, \"all_to_all\", syn_spec={\"weight\":20.0, \"delay\":1.0})\n",
+      "nest.Connect(i1, e3, \"all_to_all\", syn_spec={\"weight\":20.0, \"delay\":1.0})\n",
+      "nest.Connect(i1, i3, \"all_to_all\", syn_spec={\"weight\":20.0, \"delay\":1.0})\n",
+      "\n",
+      "nest.Connect(e2, e3, \"all_to_all\", syn_spec={\"weight\":20.0, \"delay\":1.0})\n",
+      "nest.Connect(e2, i3, \"all_to_all\", syn_spec={\"weight\":20.0, \"delay\":1.0})\n",
+      "nest.Connect(i2, e3, \"all_to_all\", syn_spec={\"weight\":20.0, \"delay\":1.0})\n",
+      "nest.Connect(i2, i3, \"all_to_all\", syn_spec={\"weight\":20.0, \"delay\":1.0})"
+     ],
+     "language": "python",
+     "metadata": {},
+     "outputs": [],
+     "prompt_number": 4
+    },
+    {
+     "cell_type": "code",
+     "collapsed": false,
+     "input": [
+      "multimeter = nest.Create(\"multimeter\", 100)\n",
+      "nest.SetStatus(multimeter, {\"withtime\":True, \"record_from\":[\"V_m\"]})"
+     ],
+     "language": "python",
+     "metadata": {},
+     "outputs": [],
+     "prompt_number": 12
+    },
+    {
+     "cell_type": "code",
+     "collapsed": false,
+     "input": [
+      "nest.Connect(pop1, pop2, syn_spec={\"weight\":20.0})"
+     ],
+     "language": "python",
+     "metadata": {},
+     "outputs": [
+      {
+       "ename": "NameError",
+       "evalue": "name 'pop1' is not defined",
+       "output_type": "pyerr",
+       "traceback": [
+        "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m\n\u001b[0;31mNameError\u001b[0m                                 Traceback (most recent call last)",
+        "\u001b[0;32m<ipython-input-13-f89e6a0450b4>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m()\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0mnest\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mConnect\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mpop1\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mpop2\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0msyn_spec\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;34m{\u001b[0m\u001b[0;34m\"weight\"\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;36m20.0\u001b[0m\u001b[0;34m}\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+        "\u001b[0;31mNameError\u001b[0m: name 'pop1' is not defined"
+       ]
+      }
+     ],
+     "prompt_number": 13
+    }
+   ],
+   "metadata": {}
+  }
+ ]
+}
